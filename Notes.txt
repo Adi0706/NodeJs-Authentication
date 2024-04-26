@@ -1,0 +1,11 @@
+Statefulll Auth - 
+
+
+client --> username , password ---> Server
+Server-->unique id (session id) --->uid of the client 
+
+uid can transfered using --->cookies , headers , responses
+
+
+EXPRESS FLOW 
+client -->midleware(checks for cookie value , valid ? calls next function)
