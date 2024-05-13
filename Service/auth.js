@@ -1,13 +1,24 @@
-const sessionIdtoUserMap = new Map() ; 
 
+const jwt = require('jsonwebtoken') ; 
+const dotenv = require('dotenv') ;
 
+dotenv.config()
+const secret = process.env.SECRET_JWT
 
-function setUser(id,user){
-    sessionIdtoUserMap.set(id,user) ; 
+function setUser(user){
+    //creating tokens 
+return jwt.sign({
+    _id:user.id,
+    email:user.email,
+},secret)
 }
 
-function getUser(id){
-    return sessionIdtoUserMap.get(id) ; 
+function getUser(token){
+try{
+    return jwt.verify(token,secret) ; 
+}catch(err){
+    return null ;
+}
 }
 
 
