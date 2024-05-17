@@ -5,6 +5,7 @@ const userRouter = require('./Routes/User') ;
 const staticRouter = require('./Routes/staticRoute/PageRoutes')
 const path = require('path') ; 
 const cookieParser = require('cookie-parser') ; 
+const{checkforAuthentication,restrictTo} = require('./middleware/auth') ; 
 
 dotenv.config() ; 
 
@@ -22,13 +23,14 @@ connectMongoDB(MONGODB_URL)
 app.use(express.json()) ; 
 app.use(express.urlencoded({extended:false})) ; 
 app.use(cookieParser()) ; 
+app.use(checkforAuthentication) ; 
 
 //template engine
 app.set("view engine","ejs") ; 
 app.set('Views',path.resolve('./Views')) ; 
 
 
-// app.use('/url',restricttologgin,handlers)--> if you want to access the url shortener u have to be logged !
+app.use('/url',restrictTo(["NORMAL"]),handlers)
 //Routes for user
 app.use('/api/user',userRouter);
 app.use('/',staticRouter) ; 
